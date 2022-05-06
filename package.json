@@ -1,18 +1,24 @@
 {
-    "name": "djs",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "start": "node index.js",
-        "test": "nodemon index.js"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "discord.js": "^13.2.0",
-        "glob": "^7.1.7",
-        "request": "^2.88.2"
-    }
+  "name": "compensation-bot-v2",
+  "version": "1.0.0",
+  "description": "compensation bot go aa",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bubby932/Compensation-Bot-V2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bubby932/Compensation-Bot-V2/issues"
+  },
+  "homepage": "https://github.com/bubby932/Compensation-Bot-V2#readme",
+  "dependencies": {
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0"
+  }
 }
