@@ -19,6 +19,7 @@
   "homepage": "https://github.com/bubby932/Compensation-Bot-V2#readme",
   "dependencies": {
     "discord.js": "^13.6.0",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "node-fetch": "^2.6.7"
   }
 }
