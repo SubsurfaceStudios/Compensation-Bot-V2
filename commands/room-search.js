@@ -49,6 +49,6 @@ module.exports = {
         }
 
         interaction.editReply({content: "Fetching server status...SUCCESS\nSearching for room...SUCCESS"});
-        interaction.followUp({content: embeds.length > 0 ? "No results found!" :"Done!", embeds: embeds});
+        interaction.followUp({content: embeds.length < 0 ? "No results found!" :"Done!", embeds: embeds});
     }
 }
