@@ -46,9 +46,16 @@ async function main() {
 
     // messaging handling
 
+    await ws_setup();
+}
+async function ws_setup() {
     socket = new WebSocket("ws://api.compensationvr.tk/messaging-gateway");
     socket.onopen = onopen;
-    socket.onclose = e => console.log(e);
+    socket.onclose = e => {
+        if(e.wasClean) return;
+        console.log("reconnecting");
+        ws_setup();
+    };
 }
 
 async function onopen() {
