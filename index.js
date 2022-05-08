@@ -41,6 +41,76 @@ async function main() {
 
     console.log("commands set");
 
+    client.on('messageCreate', async (message) => {
+        if(message.author.bot) return;
+        if(message.channel.type == 'DM') return;
+        if(message.guildId != process.env.SERVER_ID) return;
+
+        
+        var store = await getStore();
+        var inverted = invertObject(messaging_config);
+        
+        if(!Object.keys(inverted).includes(message.channelId)) return;
+
+        const url = `https://api.compensationvr.tk/api/messaging/channels/${inverted[message.channelId]}/messages`;
+        const content = {
+            content: `Message from Discord: '${message.author.username}#${message.author.discriminator}': ${message.content}`
+        };
+
+        const response = await fetch(url, {
+            method: 'put',
+            body: JSON.stringify(content, null, 5),
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': `Bearer ${process.env.BOT_ACCOUNT_PERMANENT_TOKEN}`
+            }
+        });
+
+        if(response.status != 200) return;
+
+        const json = await response.json();
+        store[message.id] = json.message_id;
+        await setStore(store);
+
+        await message.react("📡");
+    });
+
+    client.on('messageUpdate', async (message) => {
+        if(message.author.bot) return;
+        if(message.channel.type == 'DM') return;
+        if(message.guildId != process.env.SERVER_ID) return;
+
+        var store = await getStore();
+
+        if(!Object.keys(store).includes(message.id)) return;
+
+        const url = `https://api.compensationvr.tk/api/messaging/messages/${store[message.id]}`;
+        const content = {
+            content: `Message from Discord (edited): '${message.author.username}#${message.author.discriminator}': ${message.content}`
+        };
+
+        const response = await fetch(url, {
+            method: 'patch',
+            body: JSON.stringify(content, null, 5),
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': `Bearer ${process.env.BOT_ACCOUNT_PERMANENT_TOKEN}`
+            }
+        });
+    });
+
+    client.on('messageDelete', async (message) => {
+        if(message.channel.type == 'DM') return;
+        if(message.guildId != process.env.SERVER_ID) return;
+
+        var store = await getStore();
+
+        if(!Object.keys(store).includes(message.id)) return;
+
+        const url = `https://api.compensationvr.tk/api/messaging/messages/${store[message.id]}`;
+        await fetch(url, { method: 'delete', headers: {"Authorization": `Bearer ${process.env.BOT_ACCOUNT_PERMANENT_TOKEN}`}});
+    });
+
 
 
 
@@ -76,6 +146,7 @@ async function onopen() {
 
         switch(parsed.code) {
             case "message_sent":
+                if(parsed.data.message_content.author == messaging_config.bot_id) return;
                 if(!Object.keys(messaging_config).includes(parsed.data.channel_id) || parsed.data.server_id != process.env.MESSAGE_SYNC_SERVER || Object.keys(store).includes(parsed.data.message_id)) return console.log("got message but too lazy to send");
 
                 var channel = client.channels.cache.get(messaging_config[parsed.data.channel_id]);
@@ -95,6 +166,7 @@ async function onopen() {
                 setStore(store);
                 break;
             case "message_edited":
+                if(parsed.data.message_content.author == process.env.BOT_ACCOUNT_ID) return;
                 if(!Object.keys(messaging_config).includes(parsed.data.channel_id) || parsed.data.server_id != process.env.MESSAGE_SYNC_SERVER || !Object.keys(store).includes(parsed.data.message_id)) return console.log("got message but too lazy to edit");
 
                 var channel = client.channels.cache.get(messaging_config[parsed.data.channel_id]);
@@ -111,6 +183,7 @@ async function onopen() {
                 await message.edit({embeds: [embed]});
                 break;
             case "message_deleted":
+                if(parsed.data.message_content.author == process.env.BOT_ACCOUNT_ID) return;
                 if(!Object.keys(messaging_config).includes(parsed.data.channel_id) || parsed.data.server_id != process.env.MESSAGE_SYNC_SERVER || !Object.keys(store).includes(parsed.data.message_id)) return console.log("got message but too lazy to edit");
 
                 var channel = await client.channels.fetch(messaging_config[parsed.data.channel_id]);
@@ -131,4 +204,16 @@ async function getStore() {
 
 async function setStore(store_object) {
     fs.writeFileSync('./messaging_store.json', JSON.stringify(store_object, null, 5));
+}
+
+function invertObject(obj) {
+    var new_obj = {};
+
+    for(let i = 0; i < Object.keys(obj).length; i++) {
+        const key = Object.keys(obj)[i];
+        const value = obj[key];
+        new_obj[value] = key;
+    }
+
+    return new_obj;
 }
