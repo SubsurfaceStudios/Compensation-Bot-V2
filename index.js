@@ -79,7 +79,8 @@ async function onopen() {
                 var embed = new MessageEmbed()
                     .setTitle("In-Game message from official server")
                     .setDescription(`Sent in the Compensation VR official in-game messaging server by "${author.nickname}" (@${author.username}), with the tag "${author.tag}".`)
-                    .addField("Message", parsed.data.message_content.content);
+                    .addField("Message", parsed.data.message_content.content)
+                    .addField("Message ID", parsed.data.message_id);
 
                 var message = await channel.send({embeds: [embed]});
 
@@ -96,7 +97,8 @@ async function onopen() {
                 var embed = new MessageEmbed()
                     .setTitle("In-Game message from official server")
                     .setDescription(`Sent in the Compensation VR official in-game messaging server by "${author.nickname}" (@${author.username}), with the tag "${author.tag}".`)
-                    .addField("Message", parsed.data.message_content.content);
+                    .addField("Message", parsed.data.message_content.content)
+                    .addField("Message ID", parsed.data.message_id);
                 var message = await channel.messages.fetch(store[parsed.data.message_id]);
 
                 await message.edit({embeds: [embed]});
