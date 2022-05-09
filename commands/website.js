@@ -19,7 +19,7 @@ module.exports = {
         const status = interaction.options.getBoolean("status");
 
         if(status) {
-            interaction.deferReply({content: "Fetching website status, please wait!"});
+            await interaction.deferReply({content: "Fetching website status, please wait!"});
 
             var response = await fetch("https://compensationvr.tk");
 
