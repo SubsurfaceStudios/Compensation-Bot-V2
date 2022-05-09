@@ -139,8 +139,6 @@ async function onopen() {
     socket.send(JSON.stringify(packet, null, 5));
 
     socket.onmessage = async (event) => {
-        console.log(event.data);
-
         const parsed = JSON.parse(event.data);
         var store = await getStore();
 
