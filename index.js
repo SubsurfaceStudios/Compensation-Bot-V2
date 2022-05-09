@@ -41,6 +41,12 @@ async function main() {
 
     console.log("commands set");
 
+    client.user.setAFK(false);
+    client.user.setActivity({'type': "PLAYING", 'url': "https://compensationvr.tk", 'name': "Compensation VR"});
+    client.user.setStatus("online");
+
+    console.log("status set");
+
     client.on('messageCreate', async (message) => {
         if(message.author.bot) return;
         if(message.channel.type == 'DM') return;
