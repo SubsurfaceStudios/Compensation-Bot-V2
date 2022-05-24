@@ -125,7 +125,7 @@ async function main() {
     await ws_setup();
 }
 async function ws_setup() {
-    socket = new WebSocket("ws://api.compensationvr.tk/messaging-gateway");
+    socket = new WebSocket("wss://api.compensationvr.tk/messaging-gateway");
     socket.onopen = onopen;
     socket.onclose = e => {
         if(e.wasClean) return;
