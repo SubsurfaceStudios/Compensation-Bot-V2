@@ -130,7 +130,7 @@ async function ws_setup() {
     socket.onclose = e => {
         if(e.wasClean) return;
         console.log("reconnecting");
-        ws_setup();
+        setTimeout(() => ws_setup(), 1000);
     };
 }
 
