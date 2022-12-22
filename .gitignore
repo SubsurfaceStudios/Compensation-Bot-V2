@@ -1,4 +1,3 @@
+dist
 node_modules
-.env
-messaging_config.json
-messaging_store.json
+data
