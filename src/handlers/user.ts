@@ -15,7 +15,7 @@ export async function getUser(id: number) {
   }
 }
 
-type UserWithId = User & { id: number; };
+type UserWithId = User & { id: number };
 
 // this is a mix of old and new code so expect a lot of weird shit
 // if the rate limits were to be lightened somewhat i could make this a lot nicer
@@ -28,7 +28,12 @@ export default async function userAutocompleteHandler() {
     if (!isNaN(potentialId)) {
       const potentialUser = await getUser(potentialId);
       if (potentialUser !== undefined)
-        return await interaction.respond([{ name: `${potentialUser.nickname} (${potentialUser.username}) [#${potentialId}]`, value: potentialId }]);
+        return await interaction.respond([
+          {
+            name: `${potentialUser.nickname} (${potentialUser.username}) [#${potentialId}]`,
+            value: potentialId,
+          },
+        ]);
     }
 
     const userIds: string[] = await ofetch("https://api.compensationvr.tk/api/accounts/search", {
@@ -58,7 +63,10 @@ export default async function userAutocompleteHandler() {
     await interaction.respond(
       users
         .slice(0, 25)
-        .map((user) => ({ name: `${user.nickname} (${user.username}) [#${user.id}]`, value: user.id })),
+        .map((user) => ({
+          name: `${user.nickname} (${user.username}) [#${user.id}]`,
+          value: user.id,
+        })),
     );
   });
 }

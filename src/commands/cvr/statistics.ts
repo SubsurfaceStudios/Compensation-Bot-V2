@@ -35,5 +35,5 @@ export default new Command({
     }
 
     await interaction.editReply({ embeds: [embed] });
-  }
+  },
 });

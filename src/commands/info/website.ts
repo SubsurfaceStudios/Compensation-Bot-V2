@@ -11,11 +11,13 @@ export default new Command({
     }).then((r) => r.status === 200);
 
     await interaction.editReply({
-      embeds: [createStatusEmbed({
-        type: online ? "success" : "error",
-        title: "Compensation VR website",
-        description: "You can find our website at https://compensationvr.tk",
-      })],
+      embeds: [
+        createStatusEmbed({
+          type: online ? "success" : "error",
+          title: "Compensation VR website",
+          description: "You can find our website at https://compensationvr.tk",
+        }),
+      ],
     });
-  }
+  },
 });

@@ -21,12 +21,14 @@ export default new Command({
     const room = await getRoom(id);
 
     if (!room)
-      return void await interaction.editReply({
-        embeds: [createStatusEmbed({
-          type: "error",
-          description: "That room does not exist",
-        })],
-      });
+      return void (await interaction.editReply({
+        embeds: [
+          createStatusEmbed({
+            type: "error",
+            description: "That room does not exist",
+          }),
+        ],
+      }));
 
     const creator = await getUser(parseInt(room.creator_id));
 
@@ -42,5 +44,5 @@ export default new Command({
     embed.setThumbnail(`https://api.compensationvr.tk/img/${room.cover_image_id}`);
 
     await interaction.editReply({ embeds: [embed] });
-  }
+  },
 });

@@ -21,12 +21,14 @@ export default new Command({
     const user = await getUser(id);
 
     if (!user)
-      return void await interaction.editReply({
-        embeds: [createStatusEmbed({
-          type: "error",
-          description: "That user does not exist",
-        })],
-      });
+      return void (await interaction.editReply({
+        embeds: [
+          createStatusEmbed({
+            type: "error",
+            description: "That user does not exist",
+          }),
+        ],
+      }));
 
     const fields = [];
 
@@ -47,5 +49,5 @@ export default new Command({
     embed.setThumbnail(`https://api.compensationvr.tk/img/${user.profile_picture_id}`);
 
     await interaction.editReply({ embeds: [embed] });
-  }
+  },
 });

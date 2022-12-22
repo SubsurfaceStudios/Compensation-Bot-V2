@@ -7,7 +7,9 @@ import { ofetch } from "ofetch";
 
 async function createWebhook() {
   // i'm just gonna trust you to pass me the right type of channel
-  const channel = await client.channels.fetch(client.config.messaging.channel.discord) as TextChannel;
+  const channel = (await client.channels.fetch(
+    client.config.messaging.channel.discord,
+  )) as TextChannel;
   const webhook = await channel.createWebhook({
     name: "CVR Message Bridge",
     reason: "Automatically generated webhook for syncing messages between CVR and Discord",
@@ -24,23 +26,27 @@ export default async function messageSyncHandler() {
   const decoded = Buffer.from(payload, "base64").toString("utf8");
   const me: TokenData = JSON.parse(decoded);
 
-  const webhook = client.config.messaging.webhook.id === ""
-    ? await createWebhook()
-    : await client.fetchWebhook(client.config.messaging.webhook.id, client.config.messaging.webhook.token)
-        .then((wh) => wh)
-        .catch(async () => await createWebhook());
+  const webhook =
+    client.config.messaging.webhook.id === ""
+      ? await createWebhook()
+      : await client
+          .fetchWebhook(client.config.messaging.webhook.id, client.config.messaging.webhook.token)
+          .then((wh) => wh)
+          .catch(async () => await createWebhook());
 
   const webhookMapping = new Map<string, string>();
   (function connectWebsocket() {
     const ws = new WebSocket("wss://api.compensationvr.tk/messaging-gateway");
-    
+
     ws.on("open", () => {
-      ws.send(JSON.stringify({
-        code: "authenticate",
-        data: {
-          token: client.config.messaging.token,
-        },
-      }));
+      ws.send(
+        JSON.stringify({
+          code: "authenticate",
+          data: {
+            token: client.config.messaging.token,
+          },
+        }),
+      );
     });
 
     ws.on("message", async (rawMessage) => {
@@ -85,16 +91,19 @@ export default async function messageSyncHandler() {
     if (message.channelId !== client.config.messaging.channel.discord) return;
 
     const res: {
-      message_id: string
-    } = await ofetch(`https://api.compensationvr.tk/api/messaging/channels/${client.config.messaging.channel.ingame}/messages`, {
-      method: "PUT",
-      body: {
-        content: `${message.author.tag}: ${message.content}`,
+      message_id: string;
+    } = await ofetch(
+      `https://api.compensationvr.tk/api/messaging/channels/${client.config.messaging.channel.ingame}/messages`,
+      {
+        method: "PUT",
+        body: {
+          content: `${message.author.tag}: ${message.content}`,
+        },
+        headers: {
+          Authorization: `Bearer ${client.config.messaging.token}`,
+        },
       },
-      headers: {
-        "Authorization": `Bearer ${client.config.messaging.token}`,
-      },
-    });
+    );
 
     userMapping.set(message.id, res.message_id);
   });
@@ -112,7 +121,7 @@ export default async function messageSyncHandler() {
         content: `${message.author.tag}: ${message.content}`,
       },
       headers: {
-        "Authorization": `Bearer ${client.config.messaging.token}`,
+        Authorization: `Bearer ${client.config.messaging.token}`,
       },
     });
   });
@@ -127,7 +136,7 @@ export default async function messageSyncHandler() {
     await ofetch(`https://api.compensationvr.tk/api/messaging/messages/${id}`, {
       method: "DELETE",
       headers: {
-        "Authorization": `Bearer ${client.config.messaging.token}`,
+        Authorization: `Bearer ${client.config.messaging.token}`,
       },
     });
   });

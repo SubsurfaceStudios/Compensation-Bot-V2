@@ -3,7 +3,8 @@ import { ofetch } from "ofetch";
 import { client } from "..";
 import { Room } from "../def";
 
-const uuidRegex = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/;
+const uuidRegex =
+  /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/;
 const rooms = new Map<string, Room>();
 
 export async function getRoom(id: string) {
@@ -20,7 +21,7 @@ export async function getRoom(id: string) {
 export default async function roomAutocompleteHandler() {
   // these are only popular rooms, not all of them
   const res: Room[] = await ofetch("https://api.compensationvr.tk/api/rooms/search", {
-    query: { mode: "most-visited" }
+    query: { mode: "most-visited" },
   });
   res.map((r) => rooms.set(r._id, r));
 
@@ -31,14 +32,16 @@ export default async function roomAutocompleteHandler() {
     if (uuidRegex.test(focusedValue)) {
       const potentialRoom = await getRoom(focusedValue);
       if (potentialRoom !== undefined)
-        return await interaction.respond([{ name: `${potentialRoom.name} [${focusedValue}]`, value: focusedValue }]);
+        return await interaction.respond([
+          { name: `${potentialRoom.name} [${focusedValue}]`, value: focusedValue },
+        ]);
     }
 
     await interaction.respond(
       [...rooms]
         .filter(([_, item]) => item.name.toLowerCase().includes(focusedValue.toLowerCase()))
         .slice(0, 25)
-        .map(([_, item]) => ({ name: `${item.name} [${item._id}]`, value: item._id }))
+        .map(([_, item]) => ({ name: `${item.name} [${item._id}]`, value: item._id })),
     );
   });
 }

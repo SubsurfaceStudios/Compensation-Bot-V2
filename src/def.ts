@@ -1,4 +1,12 @@
-import { ApplicationCommandOptionData, ChatInputCommandInteraction, Client, ClientOptions, ColorResolvable, EmbedField, EmbedFooterOptions } from "discord.js";
+import {
+  ApplicationCommandOptionData,
+  ChatInputCommandInteraction,
+  Client,
+  ClientOptions,
+  ColorResolvable,
+  EmbedField,
+  EmbedFooterOptions,
+} from "discord.js";
 
 export interface CommandOptions {
   name: string;
@@ -48,18 +56,18 @@ export interface Item {
   id: string;
   name: string;
   tags: string[];
-  clothing_item_uuid:	string;
-  rarity:	string;
+  clothing_item_uuid: string;
+  rarity: string;
   is_purchasable: boolean;
   is_transferrable: boolean;
   is_refundable: boolean;
   is_giftable: boolean;
   equippable: boolean;
   use_slot: string;
-  buy_price: number
-  refund_price: number
-  gift_price: number
-  listed_in_store: boolean
+  buy_price: number;
+  refund_price: number;
+  gift_price: number;
+  listed_in_store: boolean;
   resources_pic_id: string;
 }
 
@@ -120,7 +128,10 @@ interface WebSocketMessageDeleted {
   };
 }
 
-export type WebSocketMessage = WebSocketMessageSent | WebSocketMessageEdited | WebSocketMessageDeleted;
+export type WebSocketMessage =
+  | WebSocketMessageSent
+  | WebSocketMessageEdited
+  | WebSocketMessageDeleted;
 
 export type StatusEmbedType = "info" | "success" | "warn" | "error";
 
@@ -146,7 +157,7 @@ export interface Config {
     webhook: {
       id: string;
       token: string;
-    }
+    };
   };
 }
 

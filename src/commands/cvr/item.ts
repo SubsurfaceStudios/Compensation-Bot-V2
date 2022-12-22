@@ -20,12 +20,14 @@ export default new Command({
     const item = items.get(id);
 
     if (!item)
-      return void await interaction.editReply({
-        embeds: [createStatusEmbed({
-          type: "error",
-          description: "That item does not exist",
-        })],
-      });
+      return void (await interaction.editReply({
+        embeds: [
+          createStatusEmbed({
+            type: "error",
+            description: "That item does not exist",
+          }),
+        ],
+      }));
 
     const fields: EmbedField[] = [
       { name: "UUID", value: inlineCode(item.clothing_item_uuid), inline: false },
@@ -35,9 +37,12 @@ export default new Command({
       { name: "\u200B", value: "\u200B", inline: true }, // kill yourself discord
     ];
 
-    if (item.buy_price !== 0) fields.push({ name: "Buy price", value: "" + item.buy_price, inline: true });
-    if (item.refund_price !== 0) fields.push({ name: "Refund price", value: "" + item.refund_price, inline: true });
-    if (item.gift_price !== 0) fields.push({ name: "Gift price", value: "" + item.gift_price, inline: true });
+    if (item.buy_price !== 0)
+      fields.push({ name: "Buy price", value: "" + item.buy_price, inline: true });
+    if (item.refund_price !== 0)
+      fields.push({ name: "Refund price", value: "" + item.refund_price, inline: true });
+    if (item.gift_price !== 0)
+      fields.push({ name: "Gift price", value: "" + item.gift_price, inline: true });
 
     fields.push({ name: "Rarity", value: `${item.rarity}/5`, inline: false });
 
@@ -51,5 +56,5 @@ export default new Command({
     });
 
     await interaction.editReply({ embeds: [embed] });
-  }
+  },
 });

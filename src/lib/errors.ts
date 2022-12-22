@@ -38,13 +38,15 @@ export async function logCommandError(interaction: CommandInteraction, error: Er
           inline: false,
         },
       ],
-    });  
+    });
     logChannel.send({ embeds: [errorEmbed] });
   }
-  console.log(`Error occured during execution of command by ${interaction.user.tag} in ${interaction.inGuild()
-    ? `${interaction.guild?.name} (${interaction.guild?.id})`
-    : "DM"}: ${`/${interaction.commandName} ${interaction.options.data
+  console.log(
+    `Error occured during execution of command by ${interaction.user.tag} in ${
+      interaction.inGuild() ? `${interaction.guild?.name} (${interaction.guild?.id})` : "DM"
+    }: ${`/${interaction.commandName} ${interaction.options.data
       .map((o) => `${o.name}:${o.value}`)
-      .join(" ")}`.substring(0, 1000)}`);
+      .join(" ")}`.substring(0, 1000)}`,
+  );
   console.error(error);
 }

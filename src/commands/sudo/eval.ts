@@ -8,14 +8,17 @@ import { createStatusEmbed } from "../../lib/embeds";
 const AsyncFunction = async function () {}.constructor;
 const tokenRegex = /(mfa\.[a-z0-9_-]{20,})|([a-z0-9_-]{23,28}\.[a-z0-9_-]{6,7}\.[a-z0-9_-]{27})/i;
 
-ref().constructor.prototype[inspect.custom] = function (depth: number, options: InspectOptionsStylized) {
+ref().constructor.prototype[inspect.custom] = function (
+  depth: number,
+  options: InspectOptionsStylized,
+) {
   if (depth < 0) return options.stylize("[VueRef]", "special");
   const inner = inspect(this.value, {
     ...options,
     depth: options.depth ? options.depth - 1 : null,
   });
   return `${options.stylize("VueRef", "special")}<${inner}>`;
-}
+};
 
 // taken from hut
 export default new Command({
@@ -54,7 +57,8 @@ export default new Command({
       if (code.endsWith(";")) code = code.slice(0, -1);
       const semicolon = code.lastIndexOf(";");
       let lastExpr = "";
-      if (semicolon > -1) { // multiple statements
+      if (semicolon > -1) {
+        // multiple statements
         lastExpr = code.slice(semicolon + 1);
         code = code.slice(0, semicolon + 1);
       } else {
@@ -85,9 +89,12 @@ export default new Command({
         embed.addFields([
           {
             name: "Result",
-            value: codeBlock("ansi", inspect(result, {
-              colors: true,
-            }).substring(0, 1000)),
+            value: codeBlock(
+              "ansi",
+              inspect(result, {
+                colors: true,
+              }).substring(0, 1000),
+            ),
             inline: false,
           },
         ]);
