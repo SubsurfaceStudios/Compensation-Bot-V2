@@ -52,12 +52,16 @@ export default async function messageSyncHandler() {
 
       switch (code) {
         case "message_sent":
-          // if (data.message_content.author === me.id) return;
+          if (data.message_content.author === me.id) return;
           const user = await getUser(parseInt(data.message_content.author));
           if (!user) return;
 
+          const username = `${user.nickname} (@${user.username})`;
+
+          if(username.toLowerCase().includes("discord")) return;
+
           const message = await webhook.send({
-            username: `${user.nickname} (@${user.username})`,
+            username: username,
             avatarURL: `https://api.compensationvr.tk/img/${user.profile_picture_id}`,
             content: data.message_content.content,
           });
