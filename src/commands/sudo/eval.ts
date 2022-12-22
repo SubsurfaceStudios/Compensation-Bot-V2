@@ -8,10 +8,7 @@ import { createStatusEmbed } from "../../lib/embeds";
 const AsyncFunction = async function () {}.constructor;
 const tokenRegex = /(mfa\.[a-z0-9_-]{20,})|([a-z0-9_-]{23,28}\.[a-z0-9_-]{6,7}\.[a-z0-9_-]{27})/i;
 
-ref().constructor.prototype[inspect.custom] = function (
-  depth: number,
-  options: InspectOptionsStylized,
-) {
+ref().constructor.prototype[inspect.custom] = function (depth: number, options: InspectOptionsStylized) {
   if (depth < 0) return options.stylize("[VueRef]", "special");
   const inner = inspect(this.value, {
     ...options,
@@ -68,12 +65,7 @@ export default new Command({
       }
       code = `${code}${lastExpr && `return ${lastExpr.trim()}`};`;
 
-      result = await AsyncFunction(
-        "client",
-        "interaction",
-        "require",
-        code,
-      )(client, interaction, require);
+      result = await AsyncFunction("client", "interaction", "require", code)(client, interaction, require);
       took = Date.now() - before;
 
       embed = createStatusEmbed({

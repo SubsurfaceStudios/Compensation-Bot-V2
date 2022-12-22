@@ -24,17 +24,12 @@ export async function logCommandError(interaction: CommandInteraction, error: Er
         },
         {
           name: "Guild",
-          value: interaction.inGuild()
-            ? `${interaction.guild?.name} (${interaction.guild?.id})`
-            : "DM",
+          value: interaction.inGuild() ? `${interaction.guild?.name} (${interaction.guild?.id})` : "DM",
           inline: true,
         },
         {
           name: "Error",
-          value: codeBlock(
-            "js",
-            (error.stack || error.message || error.toString()).substring(0, 1000),
-          ),
+          value: codeBlock("js", (error.stack || error.message || error.toString()).substring(0, 1000)),
           inline: false,
         },
       ],

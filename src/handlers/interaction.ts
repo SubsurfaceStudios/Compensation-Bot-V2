@@ -42,8 +42,7 @@ export default async function interactionHandler() {
         embeds: [
           createStatusEmbed({
             type: "error",
-            description:
-              "I ran into an error running that command! I've reported it, and it should be fixed soon.",
+            description: "I ran into an error running that command! I've reported it, and it should be fixed soon.",
           }),
         ],
       });

@@ -9,11 +9,7 @@ import roomAutocompleteHandler from "./handlers/room";
 import messageSyncHandler from "./handlers/sync";
 
 export const client = new CustomClient({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-  ],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
   config: setupReactiveData("config"),
 });
 

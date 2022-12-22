@@ -37,12 +37,9 @@ export default new Command({
       { name: "\u200B", value: "\u200B", inline: true }, // kill yourself discord
     ];
 
-    if (item.buy_price !== 0)
-      fields.push({ name: "Buy price", value: "" + item.buy_price, inline: true });
-    if (item.refund_price !== 0)
-      fields.push({ name: "Refund price", value: "" + item.refund_price, inline: true });
-    if (item.gift_price !== 0)
-      fields.push({ name: "Gift price", value: "" + item.gift_price, inline: true });
+    if (item.buy_price !== 0) fields.push({ name: "Buy price", value: "" + item.buy_price, inline: true });
+    if (item.refund_price !== 0) fields.push({ name: "Refund price", value: "" + item.refund_price, inline: true });
+    if (item.gift_price !== 0) fields.push({ name: "Gift price", value: "" + item.gift_price, inline: true });
 
     fields.push({ name: "Rarity", value: `${item.rarity}/5`, inline: false });
 

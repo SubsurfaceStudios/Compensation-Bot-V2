@@ -3,16 +3,15 @@ import { ofetch } from "ofetch";
 import { client } from "..";
 import { Room } from "../def";
 
-const uuidRegex =
-  /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/;
+const uuidRegex = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/;
 const rooms = new Map<string, Room>();
 
 export async function getRoom(id: string) {
   if (rooms.has(id)) return rooms.get(id)!;
   else {
-    const room: Room | undefined = await ofetch(
-      `https://api.compensationvr.tk/api/rooms/room/${id}/info`,
-    ).catch(() => {});
+    const room: Room | undefined = await ofetch(`https://api.compensationvr.tk/api/rooms/room/${id}/info`).catch(
+      () => {},
+    );
     if (room) rooms.set(id, room);
     return room;
   }
@@ -32,9 +31,7 @@ export default async function roomAutocompleteHandler() {
     if (uuidRegex.test(focusedValue)) {
       const potentialRoom = await getRoom(focusedValue);
       if (potentialRoom !== undefined)
-        return await interaction.respond([
-          { name: `${potentialRoom.name} [${focusedValue}]`, value: focusedValue },
-        ]);
+        return await interaction.respond([{ name: `${potentialRoom.name} [${focusedValue}]`, value: focusedValue }]);
     }
 
     await interaction.respond(

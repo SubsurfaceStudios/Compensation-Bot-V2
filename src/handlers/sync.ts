@@ -7,9 +7,7 @@ import { ofetch } from "ofetch";
 
 async function createWebhook() {
   // i'm just gonna trust you to pass me the right type of channel
-  const channel = (await client.channels.fetch(
-    client.config.messaging.channel.discord,
-  )) as TextChannel;
+  const channel = (await client.channels.fetch(client.config.messaging.channel.discord)) as TextChannel;
   const webhook = await channel.createWebhook({
     name: "CVR Message Bridge",
     reason: "Automatically generated webhook for syncing messages between CVR and Discord",

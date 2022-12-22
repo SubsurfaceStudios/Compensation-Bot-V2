@@ -128,10 +128,7 @@ interface WebSocketMessageDeleted {
   };
 }
 
-export type WebSocketMessage =
-  | WebSocketMessageSent
-  | WebSocketMessageEdited
-  | WebSocketMessageDeleted;
+export type WebSocketMessage = WebSocketMessageSent | WebSocketMessageEdited | WebSocketMessageDeleted;
 
 export type StatusEmbedType = "info" | "success" | "warn" | "error";
 

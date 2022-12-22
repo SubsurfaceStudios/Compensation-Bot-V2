@@ -8,9 +8,7 @@ export default new Command({
   description: "Display statistics",
   async handler(interaction) {
     const statistics = await Promise.all(
-      ["account", "online", "instance"].map((s) =>
-        ofetch(`https://api.compensationvr.tk/api/analytics/${s}-count`),
-      ),
+      ["account", "online", "instance"].map((s) => ofetch(`https://api.compensationvr.tk/api/analytics/${s}-count`)),
     ).catch(() => {});
     let embed;
 
@@ -20,11 +18,7 @@ export default new Command({
       embed = createStatusEmbed({
         type: "success",
         title: "Compensation VR statistics",
-        description: [
-          `**Accounts:** ${accounts}`,
-          `**Online:** ${online}`,
-          `**Instances:** ${instances}`,
-        ].join("\n"),
+        description: [`**Accounts:** ${accounts}`, `**Online:** ${online}`, `**Instances:** ${instances}`].join("\n"),
         color: "Green",
       });
     } else {

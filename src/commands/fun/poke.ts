@@ -15,9 +15,7 @@ export default new Command({
       type: "info",
       title: "Thou hast poketh the owle",
     });
-    embed.setImage(
-      `https://media.discordapp.net/attachments/804707289223004194/908718259266781205/owlpoke.gif`,
-    );
+    embed.setImage(`https://media.discordapp.net/attachments/804707289223004194/908718259266781205/owlpoke.gif`);
     await interaction.reply({
       embeds: [embed],
     });

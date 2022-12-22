@@ -7,9 +7,9 @@ const userCache = new Map<number, User>();
 export async function getUser(id: number) {
   if (userCache.has(id)) return userCache.get(id)!;
   else {
-    const user: User | undefined = await ofetch(
-      `https://api.compensationvr.tk/api/accounts/${id}/public`,
-    ).catch(() => {});
+    const user: User | undefined = await ofetch(`https://api.compensationvr.tk/api/accounts/${id}/public`).catch(
+      () => {},
+    );
     if (user) userCache.set(id, user);
     return user;
   }
@@ -61,12 +61,10 @@ export default async function userAutocompleteHandler() {
     }
 
     await interaction.respond(
-      users
-        .slice(0, 25)
-        .map((user) => ({
-          name: `${user.nickname} (${user.username}) [#${user.id}]`,
-          value: user.id,
-        })),
+      users.slice(0, 25).map((user) => ({
+        name: `${user.nickname} (${user.username}) [#${user.id}]`,
+        value: user.id,
+      })),
     );
   });
 }
