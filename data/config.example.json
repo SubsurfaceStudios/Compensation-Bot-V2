@@ -1,0 +1,16 @@
+{
+  "token": "<DISCORD TOKEN>",
+  "sudoers": ["265064055490871297"],
+  "log": "1021857791218044999",
+  "messaging": {
+    "token": "<CVR TOKEN>",
+    "channel": {
+      "discord": "1055240467643629608",
+      "ingame": "809973b0-cedc-11ec-b3c3-3f98887094f6"
+    },
+    "webhook": {
+      "id": "",
+      "token": ""
+    }
+  }
+}
