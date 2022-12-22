@@ -52,7 +52,7 @@ export default async function messageSyncHandler() {
 
       switch (code) {
         case "message_sent":
-          // if (data.message_content.author === me.id) return;
+          if (data.message_content.author === me.id) return;
           const user = await getUser(parseInt(data.message_content.author));
           if (!user) return;
 
